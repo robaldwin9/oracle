@@ -1,0 +1,22 @@
+services:
+  oracle:
+    build:
+      context: .
+    image: docker.io/robaldwin/oracle:0.1.0
+    restart: unless-stopped
+    environment:
+      DISCORD_TOKEN: "yourToken"
+      DATA_DIR: /app/data
+      RUST_LOG: "${RUST_LOG:-info}"
+    volumes:
+      - ./data:/app/data:ro,Z
+    read_only: true
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
